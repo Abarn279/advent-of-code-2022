@@ -1,4 +1,8 @@
 with open('./inp/01.txt') as f:
-    inp = list(map(int, [line.rstrip() for line in f.readlines()]))
+    calorieSums = [sum(map(int, i.split('\n'))) for i in f.read().split('\n\n')]
 
 # Part A
+print(max(calorieSums))
+
+# Part B
+print(sum(sorted(calorieSums)[-3:]))
