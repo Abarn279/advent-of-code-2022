@@ -1,5 +1,4 @@
 from collections import deque
-from re import S
 
 with open('./inp/07.txt') as f:
     inp = [line.rstrip() for line in f.readlines()]
