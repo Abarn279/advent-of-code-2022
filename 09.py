@@ -5,39 +5,37 @@ with open('./inp/09.txt') as f:
 
 DIRECTIONS = {'R': Vector2(1, 0), 'U': Vector2(0, 1), 'L': Vector2(-1, 0), 'D': Vector2(0, -1)}
 
-h = Vector2(0, 0)
-t = Vector2(0, 0)
+def get_number_visited(segments):
+    tvisited = set()
 
-tvisited = set()
+    for command in inp:
+        # direction and number of steps
+        direction, magnitude = command.split(' ')
 
-for command in inp:
-    direction, magnitude = command.split(' ')
+        # for each step collected from inp line...
+        for step in range(int(magnitude)):
 
-    for step in range(int(magnitude)):
+            # move Head (H), located at segments[0]
+            segments[0] = segments[0] + DIRECTIONS[direction]
 
-        # update H
-        h = h + DIRECTIONS[direction]
+            # for each tail segment behind H...
+            for i in range(1, len(segments)):
 
-        if abs(h.x - t.x) > 1 or abs(h.y - t.y) > 1:
-            distance = (h - t).clamped(-1, 1)
-            t = t + distance
+                # h is current head, t is the one right behind it. they will act like their own heads and tails. 
+                h, t = segments[i-1], segments[i]
 
-        tvisited.add(t)
+                # do the calculation to see if T needs to be moved. 
+                if abs(h.x - t.x) > 1 or abs(h.y - t.y) > 1:
+                    distance = (h - t).clamped(-1, 1)
+                    segments[i] = segments[i] + distance
 
-        # for y in reversed(range(6)):
-        #     for x in range(6):
-        #         if Vector2(x, y) == h: char = 'H'
-        #         elif Vector2(x, y) == t: char = 'T'
-        #         elif Vector2(x, y) == Vector2(0, 0): char = 's'
-        #         else: char = '.'
-        #         print(char, end="")
-        #     print()
-        # print()
+            # once all have been moved, add the final tail to the visited set
+            tvisited.add(segments[-1])
 
-# for y in reversed(range(6)):
-#     for x in range(6):
-#         print('#' if Vector2(x, y) in tvisited else '.', end="")
-#     print()
+    return len(tvisited)
 
+# Part A
+print(get_number_visited([Vector2(0, 0), Vector2(0, 0)]))
 
-print(len(tvisited))
+# Part B
+print(get_number_visited([Vector2(0, 0) for i in range(10)]))
