@@ -29,6 +29,8 @@ class Vector2:
         return Vector2(self.x / m, self.y / m)
     def rounded(self):
         return Vector2(int(round(self.x)), int(round(self.y)))
+    def clamped(self, lower, upper):
+        return Vector2(lower if self.x < lower else upper if self.x > upper else self.x, lower if self.y < lower else upper if self.y > upper else self.y)
     def __add__(self, other):
         return Vector2(self.x + other.x, self.y + other.y)
     def __sub__(self, other):
