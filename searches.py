@@ -49,6 +49,34 @@ def bfs(start, is_goal_fn, get_neighbors_fn, get_key_fn, find_all_goals = False)
 
     return SearchResponse(False, None, None, visited)
 
+def dfs(start, is_goal_fn, get_neighbors_fn, get_key_fn, find_all_goals = False):
+    q = deque()
+    visited = set()
+    q.appendleft((start, 0))
+    goals = []
+
+    while len(q) > 0:
+        current, cost = q.popleft()
+        visited.add(get_key_fn(current))
+
+        if is_goal_fn(current):
+            if not find_all_goals:
+                return SearchResponse(True, cost, current, visited)
+            else: 
+                goals.append(current)
+                continue
+
+        for neighbor in get_neighbors_fn(current):
+
+            if neighbor not in visited:
+                q.appendleft((neighbor, cost + 1))
+    
+    if find_all_goals and goals:
+        return SearchResponse(True, None, None, visited, goals)
+
+    return SearchResponse(False, None, None, visited)
+
+
 def astar(start, is_goal_fn, heuristic_fn, cost_fn, get_neighbors_fn, get_key_fn):
     queue = PriorityQueue()
     queue.put(start, 0)

@@ -133,6 +133,9 @@ class Grid2d:
     def values(self):
         return self.__grid.values()
 
+    def items(self):
+        return self.__grid.items()
+
     def get_cardinal_neighbors(self, v):
         return [v + d for d in [Vector2(0, 1), Vector2(1, 0), Vector2(-1, 0), Vector2(0, -1)] if v + d in self.__grid]
 
