@@ -139,6 +139,16 @@ class Grid2d:
     def get_cardinal_neighbors(self, v):
         return [v + d for d in [Vector2(0, 1), Vector2(1, 0), Vector2(-1, 0), Vector2(0, -1)] if v + d in self.__grid]
 
+    def recompute_bounds(self):
+        '''
+        used to recompute minimums for the purpose of printing when the printed grid is far away from (0, 0)
+        '''
+        keys = self.__grid.keys()
+        self.__max_x = max(i.x for i in keys)
+        self.__min_x = min(i.x for i in keys)
+        self.__max_y = max(i.y for i in keys)
+        self.__min_y = min(i.y for i in keys)
+
     def __contains__(self, key: Vector2):
         return key in self.__grid
 
